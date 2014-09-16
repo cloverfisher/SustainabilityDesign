@@ -57,6 +57,10 @@ public class StepChoose {
 		JButton btnIndicatorSelection = new JButton("Indicator selection");
 		btnIndicatorSelection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				InputIndicators inputIndicators = new InputIndicators();
+			//	inputIndicators.setVisible(true);
+			//	frame.setVisible(false);
+			//	inputIndicators.in
 			}
 		});
 		GridBagConstraints gbc_btnIndicatorSelection = new GridBagConstraints();

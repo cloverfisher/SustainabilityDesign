@@ -1,6 +1,7 @@
 package mygui;
 
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,16 +21,21 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class InputIndicators {
+public class InputIndicators extends Frame{
 
 	private JFrame frame;
 //	private JTextField textField;
 	private JTextField addTextField;
-	DefaultListModel myListModel ;//= new DefaultListModel();
+	DefaultListModel economicListModel ;//= new DefaultListModel();
+	DefaultListModel enviromentListModel;
+	DefaultListModel socialListModel;
 	GridBagConstraints gbc_list = new GridBagConstraints();
 	JList jlist; //= new JList(myListModel);
 	 
-	List<String> list = new ArrayList<String>();  
+	int viewflag=1;//economic = 1, enviroment = 2, social = 3
+	List<String> economicList = new ArrayList<String>();  
+	List<String> enviromentList = new ArrayList<String>();
+	List<String> socialList = new ArrayList<String>();
 	private GridBagConstraints gbc_btnSave;
 	
 	
@@ -62,10 +68,15 @@ public class InputIndicators {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		myListModel = new DefaultListModel();
-		jlist = new JList(myListModel);
+	//	setBounds(100, 100, 800, 600);
+		economicListModel = new DefaultListModel();
+		enviromentListModel = new DefaultListModel();
+		socialListModel = new DefaultListModel();
+		jlist = new JList(economicListModel);
 		jlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -110,12 +121,7 @@ public class InputIndicators {
 		frame.getContentPane().add(addButton, gbc_btnAdd);
 		
 		
-	//	jlist.setVisibleRowCount(-1);
-		
-	//	jlist.setSelectedIndex(0);
-	//	jlist.addListSelectionListener(InputIndicators.this);
-	//     jlist.addListSelectionListener(this);
-		//myListModel.addElement(obj);
+
 		jlist.addListSelectionListener(
 				new ListSelectionListener() {
 					
@@ -135,9 +141,33 @@ public class InputIndicators {
 			public void actionPerformed(ActionEvent e) {
 				String tempText = new String();
 				tempText = addTextField.getText();
-				list.add(tempText);
-				System.out.println(tempText);
-				myListModel.add(myListModel.getSize(),tempText);
+				if(!tempText.trim().isEmpty())
+				{
+					switch(viewflag)
+					{
+					case 1://economic
+					{
+						economicList.add(tempText);
+						economicListModel.add(economicListModel.getSize(),tempText);	
+						break;
+					}
+					case 2:	//enviroment
+					{
+						enviromentList.add(tempText);
+						enviromentListModel.add(enviromentListModel.getSize(), tempText);
+						break;
+					}
+					case 3: //social
+					{
+						socialList.add(tempText);
+						socialListModel.add(socialListModel.getSize(), tempText);
+						break;
+					}
+						
+					}
+		
+				}
+
 				
 			//	jlist=new JList(myListModel);
 				addTextField.setText("");
@@ -153,6 +183,14 @@ public class InputIndicators {
 		gbc_btnEconomic.gridx = 0;
 		gbc_btnEconomic.gridy = 2;
 		frame.getContentPane().add(btnEconomic, gbc_btnEconomic);
+		btnEconomic.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				viewflag = 1;
+				jlist.setModel(economicListModel);
+			}
+		});
 		
 	//	frame.getContentPane().add(textField, gbc_textField);
 	//	textField.setColumns(10);
@@ -184,6 +222,14 @@ public class InputIndicators {
 		gbc_btnEnvironment.gridx = 0;
 		gbc_btnEnvironment.gridy = 3;
 		frame.getContentPane().add(btnEnvironment, gbc_btnEnvironment);
+		btnEnvironment.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				viewflag = 2;
+				jlist.setModel(enviromentListModel);
+			}
+		});
 		
 		JButton btnSocial = new JButton("Social");
 		GridBagConstraints gbc_btnSocial = new GridBagConstraints();
@@ -193,6 +239,15 @@ public class InputIndicators {
 		gbc_btnSocial.gridx = 0;
 		gbc_btnSocial.gridy = 4;
 		frame.getContentPane().add(btnSocial, gbc_btnSocial);
+		btnSocial.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				viewflag = 3;
+				jlist.setModel(socialListModel);
+			}
+		});
 		
 		JButton btnExample = new JButton("Example");
 		GridBagConstraints gbc_btnExample = new GridBagConstraints();
@@ -211,8 +266,22 @@ public class InputIndicators {
 				int tempIndex = jlist.getSelectedIndex();
 				if(tempIndex!=-1)
 				{
-					list.remove(tempIndex);
-					myListModel.remove(tempIndex);
+					switch (viewflag) {
+					case 1:
+						economicList.remove(tempIndex);
+						economicListModel.remove(tempIndex);
+						break;
+
+					case 2:
+						enviromentList.remove(tempIndex);
+						enviromentListModel.remove(tempIndex);
+						break;
+					case 3:
+						socialList.remove(tempIndex);
+						socialListModel.remove(tempIndex);
+						break;
+					}
+
 				}
 				System.out.println(tempIndex);
 			//	jlist.setSelectedIndex(2);
