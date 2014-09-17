@@ -38,6 +38,8 @@ public class InputIndicators extends Frame{
 	List<String> socialList = new ArrayList<String>();
 	private GridBagConstraints gbc_btnSave;
 	
+	boolean listflag = false;
+	
 	
 	//String[] test = {"one","two"};
 
@@ -78,7 +80,7 @@ public class InputIndicators extends Frame{
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{75, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
@@ -304,6 +306,23 @@ public class InputIndicators extends Frame{
 		gbc_btnSave.gridx = 2;
 		gbc_btnSave.gridy = 6;
 		frame.getContentPane().add(btnSave, gbc_btnSave);
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(economicList.isEmpty()&&enviromentList.isEmpty()&&socialList.isEmpty())
+				{
+					//empty
+					listflag = false;
+				}
+				else
+				{
+					listflag = true;
+					
+				}
+			}
+		});
+		
 		
 		JButton btnBack = new JButton("Back");
 		GridBagConstraints gbc_btnBack = new GridBagConstraints();
@@ -312,11 +331,27 @@ public class InputIndicators extends Frame{
 		gbc_btnBack.gridx = 3;
 		gbc_btnBack.gridy = 6;
 		frame.getContentPane().add(btnBack, gbc_btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				frame.setVisible(false);
+				
+			}
+		});
 //		list.setCellRenderer(new IndicatorListRender(list));
 //
 //	    Container contentPane = frame.getContentPane();
 //	    contentPane.add(scrollPane, BorderLayout.CENTER);
 //		
 	}
+
+	public boolean getListflag() {
+		return listflag;
+	}
+
+
+	
 
 }

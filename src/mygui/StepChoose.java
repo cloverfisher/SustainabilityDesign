@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 public class StepChoose {
 
 	private JFrame frame;
-
+	InputIndicators inputIndicators;
 	/**
 	 * Launch the application.
 	 */
@@ -29,7 +29,12 @@ public class StepChoose {
 			}
 		});
 	}
-
+	JButton btnInputFactor;
+	public  void setBtnInputFactor(Boolean a) {
+			btnInputFactor.setEnabled(a);
+	}
+	JButton btnDecideAlternatives ;
+	
 	/**
 	 * Create the application.
 	 */
@@ -42,6 +47,7 @@ public class StepChoose {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.getContentPane().setEnabled(false);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,7 +63,9 @@ public class StepChoose {
 		JButton btnIndicatorSelection = new JButton("Indicator selection");
 		btnIndicatorSelection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InputIndicators inputIndicators = new InputIndicators();
+				inputIndicators = new InputIndicators();
+				ClickableThread newclickableClickableThread = new ClickableThread();
+				newclickableClickableThread.start();
 			//	inputIndicators.setVisible(true);
 			//	frame.setVisible(false);
 			//	inputIndicators.in
@@ -72,7 +80,8 @@ public class StepChoose {
 		gbc_btnIndicatorSelection.weightx = 1;
 		frame.getContentPane().add(btnIndicatorSelection, gbc_btnIndicatorSelection);
 		
-		JButton btnInputFactor = new JButton("Input weight factor");
+		
+		btnInputFactor = new JButton("Input weight factor");
 		GridBagConstraints gbc_btninputFactor = new GridBagConstraints();
 		gbc_btninputFactor.weighty = 1.0;
 		gbc_btninputFactor.weightx = 1.0;
@@ -82,8 +91,19 @@ public class StepChoose {
 		gbc_btninputFactor.gridx = 1;
 		gbc_btninputFactor.gridy = 1;
 		frame.getContentPane().add(btnInputFactor, gbc_btninputFactor);
+		btnInputFactor.setEnabled(false);
 		
-		JButton btnDecideAlternatives = new JButton("Decide alternatives");
+		btnInputFactor.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WeightFactors weightFactors = new WeightFactors();
+				
+				
+			}
+		});
+		
+		btnDecideAlternatives = new JButton("Decide alternatives");
 		GridBagConstraints gbc_btnDecideAlternatives = new GridBagConstraints();
 		gbc_btnDecideAlternatives.weighty = 1.0;
 		gbc_btnDecideAlternatives.weightx = 1.0;
@@ -126,6 +146,27 @@ public class StepChoose {
 		gbc_btnClose.gridx = 2;
 		gbc_btnClose.gridy = 6;
 		frame.getContentPane().add(btnClose, gbc_btnClose);
-	}
 
+	}
+	class  ClickableThread extends Thread{
+
+		@Override
+		public void run() {
+
+			super.run();
+			while(true)
+			{
+				boolean flag = inputIndicators.getListflag();
+				if(inputIndicators.getListflag())
+				{
+					btnInputFactor.setEnabled(true);
+				}
+				else {
+					btnInputFactor.setEnabled(false);
+				}
+			}
+		}
+		
+	}
+		
 }

@@ -59,6 +59,8 @@ public class MainPage {
 		JButton btnAnalysis = new JButton("Analysis");
 		btnAnalysis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				StepChoose stepChoose = new StepChoose();
+				
 			}
 		});
 		
